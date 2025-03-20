@@ -6,7 +6,6 @@ import ru.onuchin.fitnessApp.models.Person;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    public Person findByName(String name);
+    Person findByName(String name);
     boolean existsByEmail(String email);
-
 }

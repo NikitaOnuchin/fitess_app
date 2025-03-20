@@ -8,6 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.onuchin.fitnessApp.models.Target;
 import ru.onuchin.fitnessApp.repositories.TargetRepository;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -27,9 +29,9 @@ class TargetServiceTest {
         final Target target = new Target(NAME);
         when(targetRepository.findByName(NAME)).thenReturn(target);
 
-        final Target actual = targetService.getTargetByName(NAME);
+        final Optional<Target> actual = targetService.getTargetByName(NAME);
 
-        assertNotNull(actual);
-        assertEquals(target, actual);
+        assertNotNull(actual.orElse(null));
+        assertEquals(target, actual.orElse(null));
     }
 }

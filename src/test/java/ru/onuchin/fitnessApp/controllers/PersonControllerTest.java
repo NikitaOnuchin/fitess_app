@@ -17,6 +17,8 @@ import ru.onuchin.fitnessApp.models.Target;
 import ru.onuchin.fitnessApp.services.PersonService;
 import ru.onuchin.fitnessApp.services.TargetService;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -45,16 +47,14 @@ class PersonControllerTest {
     @BeforeAll
     static void setUp() {
         personDTO = new PersonDTO("Sam", "123@mail.com", 30, 90, 180, Target.MAINTAINING);
-
         target = new Target(Target.MAINTAINING);
-
         person = new Person("Sam", "123@mail.com", 30, 90, 180, target);
     }
 
     @Test
     void addPerson() {
         when(bindingResult.hasErrors()).thenReturn(false);
-        when(targetService.getTargetByName(Target.MAINTAINING)).thenReturn(target);
+        when(targetService.getTargetByName(Target.MAINTAINING)).thenReturn(Optional.ofNullable(target));
         when(modelMapper.map(personDTO, Person.class)).thenReturn(person);
         when(personService.savePerson(person)).thenReturn(person);
         when(modelMapper.map(person, PersonDTO.class)).thenReturn(personDTO);

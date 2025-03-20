@@ -1,6 +1,8 @@
 package ru.onuchin.fitnessApp.repositories;
 
 import org.checkerframework.checker.units.qual.A;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,15 @@ class PersonRepositoryTest {
         this.targetRepository = targetRepository;
     }
 
+    @BeforeAll
+    static void setUp() {
+
+    }
+
     @Test
     void findByNameTest() {
         Target target = new Target("Мистер мускул");
         targetRepository.save(target);
-
         Person person = new Person("Sam", "123@mail.com", 30,
                 90, 180, target, 2_000);
         personRepository.save(person);
@@ -39,4 +45,19 @@ class PersonRepositoryTest {
         assertNotNull(actualPerson);
         assertEquals(person, actualPerson);
     }
+
+    @Test
+    void existsByEmailTest() {
+        Target target = new Target("Мистер мускул");
+        targetRepository.save(target);
+        Person person = new Person("Sam", "123@mail.com", 30,
+                90, 180, target, 2_000);
+        personRepository.save(person);
+
+        boolean actual = personRepository.existsByEmail("123@mail.com");
+
+        assertEquals(true, actual);
+    }
+
+
 }
